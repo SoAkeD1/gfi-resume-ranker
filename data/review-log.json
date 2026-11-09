@@ -1,0 +1,205 @@
+[
+  {
+    "id": "AA-4144",
+    "status": "checked - ok",
+    "notes": "Environment GET; LCA/OpenLCA only listed in skills, no LCA work. 0 LCA yrs correct.",
+    "changes": []
+  },
+  {
+    "id": "AA-0195",
+    "status": "checked - ok",
+    "notes": "NID B.Des student. Only Gluco job is UI/UX (2 months); graphic/branding jobs correctly not counted.",
+    "changes": []
+  },
+  {
+    "id": "AA-0402",
+    "status": "checked - ok",
+    "notes": "UI/UX intern + app-dev intern who designed Android UI screens (counted as UI work); current graphic-design job not counted. 4 UI projects verified.",
+    "changes": []
+  },
+  {
+    "id": "AK-4184",
+    "status": "corrected",
+    "notes": "Portfolio/responsive came from a personal HTML/CSS website in IT training - web coding, not UX design. LCA only listed + certificate, no LCA job: 0 LCA yrs confirmed. 4.5 total yrs verified from dates (overlapping IIT roles counted once).",
+    "changes": [
+      {
+        "field": "skills",
+        "from": "portfolio",
+        "to": "(removed)"
+      },
+      {
+        "field": "skills",
+        "from": "responsive",
+        "to": "(removed)"
+      }
+    ]
+  },
+  {
+    "id": "APS-0222",
+    "status": "checked - ok",
+    "notes": "M.Des; UI designer 2022-24 + product design intern = 2.3 design yrs (graphic-only jobs not counted). Slight over-qualification penalty intended.",
+    "changes": []
+  },
+  {
+    "id": "AR-0207",
+    "status": "checked - ok",
+    "notes": "Only job (Nyx UI) has no dates in the resume; kept 0 design yrs rather than guess. Skills and 2 projects verified.",
+    "changes": []
+  },
+  {
+    "id": "AY-0440",
+    "status": "checked - ok",
+    "notes": "Internship given as 8 months (no dates) = 0.7 yrs. Skills and 3 projects verified.",
+    "changes": []
+  },
+  {
+    "id": "BA-4206",
+    "status": "checked - ok",
+    "notes": "Product compliance (RoHS/REACH/IMDS), not LCA or design. 2.3 yrs from Aug 2024 to now; resume's '1+ year' likely written earlier.",
+    "changes": []
+  },
+  {
+    "id": "BS-0461",
+    "status": "corrected",
+    "notes": "Added Techlanz Product Design Intern (Jun-Jul 2025, designed 20+ web interfaces) as UI work: 6+4+2 months = 1.0 yr. Founder/consultant role (2023-2026) is mainly 3D motion graphics/AI UGC, not clearly UI/UX - not counted.",
+    "changes": [
+      {
+        "field": "experience.relevantYears.uiux",
+        "from": 0.8,
+        "to": 1
+      }
+    ]
+  },
+  {
+    "id": "CG-0278",
+    "status": "checked - ok",
+    "notes": "UI/UX internship (4 months) + 3 design projects verified; strong skills evidence.",
+    "changes": []
+  },
+  {
+    "id": "DP-0247",
+    "status": "checked - ok",
+    "notes": "4 design jobs re-added by hand: 14+11+4+4 = 33 months = 2.8 yrs. No projects section; jobs give portfolio credit. Slight over-qualification for an internship is intended.",
+    "changes": []
+  },
+  {
+    "id": "DVJ-0268",
+    "status": "checked - ok",
+    "notes": "2 UI/UX roles in 2026 (0.7 yrs) + 3 design projects verified.",
+    "changes": []
+  },
+  {
+    "id": "FK-0451",
+    "status": "checked - ok",
+    "notes": "Design jobs overlap (Dec 2025-now + internship Jun 2025-'Dec 2026', future end likely a typo) = 1.5 UI/UX yrs either way; matches own '1+ year'. Older graphic-design job (logos/brochures) correctly not counted as UI/UX.",
+    "changes": []
+  },
+  {
+    "id": "FT-0301",
+    "status": "checked - ok",
+    "notes": "Only dated design job is Flow UX audit (6 months). The 4 'Not specified' entries are a self-built product + 3 independent case studies: counted as portfolio work, not as experience years.",
+    "changes": []
+  },
+  {
+    "id": "HM-4257",
+    "status": "checked - ok",
+    "notes": "LCA Analyst at L&T since Dec 2022 (4 yrs); 'Published 40 EPDs' verified, so the 3-project requirement is met. SimaPro only listed. Projects section is mechanical (scooter), not LCA.",
+    "changes": []
+  },
+  {
+    "id": "KA-4307",
+    "status": "checked - ok",
+    "notes": "Regulatory/halal compliance and water-treatment internships; no LCA or design work. Neither is correct.",
+    "changes": []
+  },
+  {
+    "id": "KN-0310",
+    "status": "checked - ok",
+    "notes": "Very short resume: relevant PG in UI/UX (IIIT-B) but skills only listed, no projects or jobs. Kept Uncertain for HR to read the original rather than inventing evidence.",
+    "changes": []
+  },
+  {
+    "id": "MI-0235",
+    "status": "checked - ok",
+    "notes": "'Jan 26 - April 26' is 2026 (4 months internship). Thrift-brand founder role is business, not UI/UX. 3 design projects verified.",
+    "changes": []
+  },
+  {
+    "id": "MM-0338",
+    "status": "checked - ok",
+    "notes": "UI/UX intern (2 months) + 2 design case studies verified.",
+    "changes": []
+  },
+  {
+    "id": "MS-4442",
+    "status": "checked - ok",
+    "notes": "LCA at Daimler (intern), Uniper and Accurec; 3 LCA projects incl. openLCA. 1.3 LCA yrs verified.",
+    "changes": []
+  },
+  {
+    "id": "NA-4346",
+    "status": "checked - ok",
+    "notes": "ESG reporting/consulting; LCA only mentioned in summary, EV-charging project is not an LCA study. 0 LCA yrs correct.",
+    "changes": []
+  },
+  {
+    "id": "PKG-4369",
+    "status": "checked - ok",
+    "notes": "Teaching assistant/intern; 'Life Cycle Analysis' only listed as a method. 0 LCA yrs correct.",
+    "changes": []
+  },
+  {
+    "id": "RS-4414",
+    "status": "checked - ok",
+    "notes": "ESG analyst; LCA only from a Coursera course. Earlier audit-specialist job (2020-23) is not sustainability work.",
+    "changes": []
+  },
+  {
+    "id": "SRK-4455",
+    "status": "corrected",
+    "notes": "Leads end-to-end LCAs for 'major UK and global clients' across food/beverage/FMCG since Mar 2022, plus LCAs at IIT Madras. No number stated; 4.7 yrs leading multi-client LCA = at least 3 studies. Rule had counted 2 (one per job).",
+    "changes": [
+      {
+        "field": "lcaProjectCount.count",
+        "from": 2,
+        "to": 3
+      }
+    ]
+  },
+  {
+    "id": "SS-4470",
+    "status": "checked - ok",
+    "notes": "CII LCA job (Jul 2025-now, 1.4 yrs) + 2 academic LCA projects verified; M.Tech Sustainable Engineering.",
+    "changes": []
+  },
+  {
+    "id": "SS-4484",
+    "status": "checked - ok",
+    "notes": "Current PwC ESG role has no start date ('Ongoing') - not guessed, so it adds 0 yrs. LCA = TATA internship with OpenLCA study (0.3 yrs). Left Uncertain: HR should ask for PwC start date.",
+    "changes": []
+  },
+  {
+    "id": "TM-4495",
+    "status": "checked - ok",
+    "notes": "3 SimaPro cradle-to-gate LCA projects + LCA job at L&T verified. Fixed bug: 'MS Ramaiah University' was read as an MS degree.",
+    "changes": []
+  },
+  {
+    "id": "UI-4506",
+    "status": "checked - ok",
+    "notes": "Prepares LCA studies and EPDs in Air.e (added Air.e to the LCA software list for everyone). No GaBi/SimaPro, so that must-have stays missing. Fixed bug: initials 'UI' were read as a UI skill.",
+    "changes": []
+  },
+  {
+    "id": "VM-4520",
+    "status": "checked - ok",
+    "notes": "Fraunhofer circular-economy research was not counted as sustainability work. Fixed by adding 'circular economy' and 'decarbonisation' to the sustainability word list for all candidates (rule change, not a one-off edit).",
+    "changes": []
+  },
+  {
+    "id": "resume-0327",
+    "status": "checked - ok",
+    "notes": "Opened the .docx contents by hand: page, comments and footnotes are all blank, no images. Truly empty file - kept in the pile as Uncertain so HR can ask the candidate to resend.",
+    "changes": []
+  }
+]
