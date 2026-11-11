@@ -4,7 +4,8 @@ A prototype that reads 47 anonymised resumes, pulls out the job-relevant facts, 
 
 Built by Shrimon Mishra for the Growth For Impact Software Engineer assignment.
 
-- **Live prototype:** _(Vercel link, added after deployment)_
+- **Live prototype:** https://gfi-resume-ranker.vercel.app
+- **Source code:** https://github.com/SoAkeD1/gfi-resume-ranker
 - **Stack:** Next.js 14 (App Router) · TypeScript · Tailwind CSS · `mammoth` (Word) · `unpdf` (PDF) · Vitest. No database; free Vercel tier.
 
 ---
