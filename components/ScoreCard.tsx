@@ -26,7 +26,8 @@ export function ScoreCard({ score, rank, of, delay = 0 }: { score: RoleScore; ra
 
       <div className="mt-5 space-y-5">
         {score.parts.map((p, i) => {
-          const proof = p.evidence.filter(Boolean);
+          // Some evidence already arrives wrapped in “ ”, and two skills can quote the same line: tidy both.
+          const proof = Array.from(new Set(p.evidence.filter(Boolean).map((e) => e.replace(/^[“"]+|[”"]+$/g, "").trim())));
           return (
             <div key={p.key}>
               <div className="flex items-baseline justify-between gap-3">

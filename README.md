@@ -1,4 +1,29 @@
+<div align="center">
+
 # Resume Ranker: LCA Consultant & UI/UX Design Intern
+
+**Screens 47 anonymised resumes, ranks every candidate for two jobs, and shows the reason behind every point.**
+
+[![Live demo](https://img.shields.io/badge/LIVE_DEMO-open_the_site-1E5B44?style=for-the-badge&logo=vercel&logoColor=white)](https://gfi-resume-ranker.vercel.app)
+&nbsp;[![Source](https://img.shields.io/badge/SOURCE-GitHub-17201B?style=for-the-badge&logo=github&logoColor=white)](https://github.com/SoAkeD1/gfi-resume-ranker)
+
+![Next.js](https://img.shields.io/badge/Next.js-14-000000?style=flat-square&logo=nextdotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+![Tests](https://img.shields.io/badge/tests-46_passing-1E5B44?style=flat-square)
+![Hosting](https://img.shields.io/badge/Vercel-free_tier-000000?style=flat-square&logo=vercel&logoColor=white)
+![Scoring](https://img.shields.io/badge/scoring-rule--based_%26_explainable-5A3EA6?style=flat-square)
+
+[What it does](#what) · [Screenshots](#screenshots) · [Data flow](#flow) · [Extraction](#extraction) · [Human review](#review) · [Scoring](#scoring) · [Classification](#classification) · [Upload](#upload) · [Limits](#limits) · [Run it](#run)
+
+<br>
+
+<a href="https://gfi-resume-ranker.vercel.app"><img src="docs/screenshots/01-rankings-lca.png" alt="The Rankings page: two job tabs, filters and a ranked list with score bars" width="900"></a>
+
+</div>
+
+> [!IMPORTANT]
+> **Built to be verified, not trusted.** The extraction is rule-based, so the same file always gives the same result. A person then checked **30 of the 47 resumes** against the originals, corrected what the rules got wrong, and every change is logged old → new in [`data/review-log.json`](data/review-log.json). See [Human review](#review).
 
 A prototype that reads 47 anonymised resumes, pulls out the job-relevant facts, checks them against two job descriptions, and ranks every candidate **separately for each role**. Every point it gives comes with a written reason and a quote from the resume. HR users can browse, filter and open candidates, see every data problem, and upload a new resume to see where it would rank.
 
@@ -8,7 +33,50 @@ Built by Shrimon Mishra for the Growth For Impact Software Engineer assignment.
 - **Source code:** https://github.com/SoAkeD1/gfi-resume-ranker
 - **Stack:** Next.js 14 (App Router) · TypeScript · Tailwind CSS · `mammoth` (Word) · `unpdf` (PDF) · Vitest. No database; free Vercel tier.
 
+<a name="glance"></a>
+
+### At a glance
+
+| **47** | **2** | **30** | **46** | **11 · 23 · 8 · 5** |
+|:---:|:---:|:---:|:---:|:---:|
+| resumes read | jobs ranked separately | checked by hand | tests passing | Fits LCA · Fits UI/UX · Fits neither · Needs a look |
+
+<a name="screenshots"></a>
+
+## Screenshots
+
+**Rankings: one ranked list per job, with filters.** Here the UI/UX tab with the “Fits UI/UX” filter on. The top 3 get gold, silver and bronze rings.
+
+<img src="docs/screenshots/02-rankings-uiux.png" alt="UI/UX rankings with the Fits UI/UX filter on" width="100%">
+
+**Candidate detail: a reason and a quote for every point.** Open any “Show proof from the resume” to see the exact line the score came from.
+
+<img src="docs/screenshots/03-candidate.png" alt="Candidate page with score rings, part-by-part bars and a proof quote" width="100%">
+
+**Upload a new resume: see where it would rank in the pile.** Word or PDF, scored with the same rules as everyone else. Nothing is saved.
+
+<img src="docs/screenshots/04-upload-result.png" alt="Upload result showing the rank for each job and the best fit" width="100%">
+
+**Problems: nothing is guessed.** Missing or unreadable data is listed here so a person can open the original and decide.
+
+<img src="docs/screenshots/05-problems.png" alt="Problems page with Needs a look cards and a filterable warnings table" width="100%">
+
+**How scoring works: plain English for HR.** The point split, the label rules and the known limits.
+
+<img src="docs/screenshots/06-how-it-works.png" alt="How scoring works page with the point split for both jobs" width="100%">
+
+**On a phone.** The table becomes cards and “Upload a resume” becomes a floating button.
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/screenshots/07-mobile-rankings.png" alt="Rankings on a phone" width="300"></td>
+    <td align="center"><img src="docs/screenshots/08-mobile-candidate.png" alt="Candidate page on a phone" width="300"></td>
+  </tr>
+</table>
+
 ---
+
+<a name="what"></a>
 
 ## 1. What it does
 
@@ -24,7 +92,20 @@ Built by Shrimon Mishra for the Growth For Impact Software Engineer assignment.
 
 ---
 
+<a name="flow"></a>
+
 ## 2. Data flow
+
+```mermaid
+flowchart LR
+    A["47 Word resumes<br/>+ JD1 and JD2"] --> B["① Extract<br/>skills, dates, education"]
+    B --> C["② Human review<br/>review.csv to verified.json"]
+    C --> D["③ Score, ④ classify, rank<br/>results.json"]
+    D --> E["⑤ Website<br/>+ upload API"]
+```
+
+<details>
+<summary>Plain-text version</summary>
 
 ```
  47 .docx resumes          JD1 + JD2 (config/jobs.ts)
@@ -46,9 +127,13 @@ Built by Shrimon Mishra for the Growth For Impact Software Engineer assignment.
  ⑤ WEB APP (Next.js, static pages)    + /api/rank: upload → same ①③④ code → rank vs the pile
 ```
 
+</details>
+
 `npm run pipeline` runs ①–④ in order. Human edits in `review.csv` are kept when the pipeline is re-run.
 
 ---
+
+<a name="extraction"></a>
 
 ## 3. Extraction (step ①)
 
@@ -71,6 +156,8 @@ The extractor is **rule-based, not an LLM**. The same input always gives the sam
 8. **Flags instead of guesses:** unreadable or empty file, missing or unclear dates, very short resume, no sections, claimed years that don't match the dates, numbers removed by anonymisation, and duplicates.
 
 ---
+
+<a name="review"></a>
 
 ## 4. Human review (step ②): how the AI and rule output was verified
 
@@ -116,9 +203,20 @@ Three more false matches were fixed before the review:
 
 ---
 
+<a name="scoring"></a>
+
 ## 5. Scoring (step ③)
 
 Each resume gets **two scores out of 100**, one per job. Each score is the sum of four parts, and each part lists its reasons and evidence.
+
+**Worked example: TM-4495 for the LCA role, 87.1 / 100**
+
+```
+Skills         28.3 / 40   LCA used in work (+8), SimaPro used in work (+8), LCI data missing, 5 bonus skills (+12.3)
+Experience     23.8 / 25   3.8 years of LCA work; target is 4-6, so 25 x 3.8 / 4
+LCA projects   20.0 / 20   4 LCA projects found; the JD asks for at least 3
+Education      15.0 / 15   M.Tech (+10) in an engineering field (+5)
+```
 
 ### LCA Consultant (JD1)
 
@@ -144,6 +242,8 @@ Each resume gets **two scores out of 100**, one per job. Each score is the sum o
 
 ---
 
+<a name="classification"></a>
+
 ## 6. Classification (step ④)
 
 | Label | Rule |
@@ -167,6 +267,8 @@ Each resume gets **two scores out of 100**, one per job. Each score is the sum o
 
 ---
 
+<a name="upload"></a>
+
 ## 7. Uploading a new resume
 
 `POST /api/rank` (multipart field `file`, `.docx` or `.pdf`, up to 4 MB) runs **the same** extract, score and classify functions. It returns both scores, the label and the breakdown, plus its rank in the pile, so a result reads like "#4 of 48". The rank uses the same order as the lists: score, then higher degree, then relevant years.
@@ -174,6 +276,8 @@ Each resume gets **two scores out of 100**, one per job. Each score is the sum o
 Nothing is stored. If the upload matches a resume already in the pile, the app says so. Wrong file types, large files and unreadable files get plain-English messages.
 
 ---
+
+<a name="limits"></a>
 
 ## 8. Decisions and known limits
 
@@ -186,6 +290,8 @@ Nothing is stored. If the upload matches a resume already in the pile, the app s
 
 ---
 
+<a name="run"></a>
+
 ## 9. Run it locally
 
 ```bash
@@ -194,6 +300,9 @@ npm run pipeline   # extract → review export/apply → score  (writes data/*.j
 npm test           # 46 unit tests (dates, extraction, scoring, review, ideal-candidate check)
 npm run dev        # http://localhost:3000
 ```
+
+> [!TIP]
+> The live site is deployed on Vercel's free plan straight from this repository's `master` branch, so every push redeploys it.
 
 To change the requirements, edit `config/jobs.ts` (must-haves, bonus skills, target years) or `lib/skills.ts` (skills and synonyms), then run `npm run score`.
 
@@ -210,5 +319,18 @@ lib/classify.ts          labels + ranking
 scripts/*.ts             pipeline steps (extract, review export/apply, score)
 data/                    extracted.json, review.csv, review-log.json, verified.json, results.json
 app/                     pages: rankings, candidate, problems, upload, how-it-works, /api/rank
+components/              shared UI: RankingTable, ScoreCard, CandidateView, IssuesTable, SiteNav
+public/resumes/          the 47 original .docx files (linked from each candidate page)
+docs/                    methodology.md (text for the submission form) and screenshots/
 tests/                   Vitest unit tests
 ```
+
+---
+
+<div align="center">
+
+Built by **Shrimon Mishra** for the Growth For Impact Software Engineer assignment · November 2026
+
+[Live demo](https://gfi-resume-ranker.vercel.app) · [GitHub](https://github.com/SoAkeD1) · [Back to top](#top)
+
+</div>
