@@ -95,7 +95,7 @@ function headingOf(line: string): SectionKey | null {
 }
 
 const clean = (s: string) =>
-  s.replace(/ /g, " ").replace(/[​-‍﻿]/g, "").replace(/\r/g, "");
+  s.replace(/\u00a0/g, " ").replace(/[\u200b-\u200d\ufeff]/g, "").replace(/\r/g, "");
 
 const isBullet = (s: string) => /^\s*[•●▪◦\-*–]\s+/.test(s);
 const stripBullet = (s: string) => s.replace(/^\s*[•●▪◦\-*–]\s+/, "").trim();
@@ -256,7 +256,9 @@ export function extractFromText(rawText: string, sourceFile: string, today: YM):
     const m = l.match(DEG);
     if (!m) continue;
     const d = m[1].toLowerCase().replace(/[.\s]/g, "");
+    // School words first: "Madhyamik" (class 10) starts with "ma" and was read as a Master's.
     const level: Education["level"] =
+      /^(classx|xii|hsc|ssc|hse|sse|highersecondary|madhyamik|madhymik|seniorsecondary|secondary)$/.test(d) ? "school" :
       /^(phd|doctor)/.test(d) ? "phd" :
       /^(mtech|me|msc|ms|mba|mdes|ma|march|master|postgrad|pg)/.test(d) ? "master" :
       /^(btech|be|bsc|bdes|ba|barch|bcom|bba|bca|bachelor)/.test(d) ? "bachelor" :

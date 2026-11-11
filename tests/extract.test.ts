@@ -94,6 +94,10 @@ describe("extractFromText", () => {
     expect(designer.projects[0].relevantTo).toContain("uiux");
     expect(engineer.projects[0].relevantTo).not.toContain("uiux");
   });
+  it("reads Madhyamik / Higher Secondary as school, not a degree (review bug)", () => {
+    const e = extractFromText("ZZ\n\nDesigner\n\nEducation\n\nBachelor of Arts\n\nUniversity of Calcutta, Completed in 2024\n\nHigher Secondary\n\nWBCHSE, Completed in 2019\n\nMadhymik\n\nWBBSC, Completed in 2017\n\n" + "x".repeat(900), "anonymized_ZZ_6.docx", today);
+    expect(e.education.map((x) => x.level)).toEqual(["bachelor", "school", "school"]);
+  });
   it("flags empty files instead of guessing", () => {
     const e = extractFromText("  ", "anonymized_resume_1.docx", today);
     expect(e.flags[0].level).toBe("error");

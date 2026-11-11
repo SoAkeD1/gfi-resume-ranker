@@ -90,7 +90,7 @@ Extraction is never trusted blindly.
 | BS-0461 | design years 0.8 → 1.0 | A product-design internship that built web interfaces wasn't recognised |
 | SRK-4455 | LCA projects 2 → 3 | Has led LCAs for multiple global clients since 2022; the resume gives no number |
 
-The review also found **7 extractor bugs**. They were fixed in code for all resumes, not patched by hand, and each has a regression test:
+The review and later re-reads also found **10 extractor bugs**. Each was fixed in the rules for all resumes, not patched by hand. Bugs 1, 2, 4, 9 and 10 have regression tests:
 1. A candidate with the initials "UI" was given a UI-design skill.
 2. "MS Ramaiah University" was read as an MS degree.
 3. "Bachelor of Technology in CS" gave the field "Technology".
@@ -98,12 +98,11 @@ The review also found **7 extractor bugs**. They were fixed in code for all resu
 5. "3+ years" was flagged when the dates showed more ("+" means at least).
 6. The LCA software Air.e wasn't recognised.
 7. Circular-economy work wasn't counted as sustainability.
+8. "Electronics **Communication** Engineering" earned the UI/UX "design field" bonus. The field rule now needs "mass/visual/design communication".
+9. Designers often describe projects by outcome ("truck aggregator app", "90% task success rate") without the words UI/UX/Figma, so 8 designers had design projects that weren't counted. For a clear designer profile (design headline or design degree), projects about apps, users, dashboards, interfaces or usability now count as design work. No non-designer's score changed.
+10. "Madhyamik" (the class 10 board exam) was read as a Master's degree, because it starts with "ma". School words are now checked first.
 
-A later re-read of the score explanations found an 8th bug: "Electronics **Communication** Engineering" earned the UI/UX "design field" bonus. The field rule now needs "mass/visual/design communication".
-
-A 9th gap showed up when the UI/UX weights changed: designers often describe projects by outcome ("truck aggregator app", "90% task success rate") without the words UI/UX/Figma, so 8 designers had design projects that weren't counted. For a clear designer profile (design headline or design degree), projects about apps, users, dashboards, interfaces or usability now count as design work too. No non-designer's score changed.
-
-**Ideal-candidate check.** An ideal resume was written straight from each JD and added as a test that must score exactly 100. An unrelated resume must score under 15. The check found a design flaw: a perfect UI/UX **intern** with a Bachelor's could only reach 98, because education gave Master's 10 but Bachelor's 8. Education level points are now set per role in `config/jobs.ts`. For the internship, a Bachelor's earns full level points; the LCA consultant role keeps Master's 10 / Bachelor's 8.
+**Ideal-candidate check.** An ideal resume was written straight from each JD and added as a test that must score exactly 100. An unrelated resume must score under 15. The check found a design flaw in the first version: a perfect UI/UX **intern** with a Bachelor's could only reach 98, because education favoured a Master's. That led to the current UI/UX split, where education is worth 5 points and any degree earns the same level points (section 5).
 
 Three more false matches were fixed before the review:
 - engineering "product design" counted as UI/UX
@@ -111,7 +110,7 @@ Three more false matches were fixed before the review:
 - a finance "product portfolio" counted as a design portfolio
 
 **Where we refused to guess:**
-- AR-0207 and SS-4484 have jobs with no dates. They stay flagged and are labelled "Needs a look".
+- AR-0207 and SS-4484 have jobs with no dates. Those jobs count as 0 years and stay flagged. SS-4484 lands at 49.2 for LCA, so it is labelled "Needs a look".
 - `anonymized_resume_…327.docx` is truly empty: the page, comments and footnotes are all blank, with no images. It stays in the list with a "could not read" error rather than being silently dropped.
 
 ---
@@ -169,7 +168,7 @@ Each resume gets **two scores out of 100**, one per job. Each score is the sum o
 
 ## 7. Uploading a new resume
 
-`POST /api/rank` (multipart field `file`, `.docx` or `.pdf`, up to 4 MB) runs **the same** extract, score and classify functions. It returns both scores, the label and the breakdown, plus `rank = 1 + (number of pile resumes with a higher score)`, so a result reads like "#4 of 48".
+`POST /api/rank` (multipart field `file`, `.docx` or `.pdf`, up to 4 MB) runs **the same** extract, score and classify functions. It returns both scores, the label and the breakdown, plus its rank in the pile, so a result reads like "#4 of 48". The rank uses the same order as the lists: score, then higher degree, then relevant years.
 
 Nothing is stored. If the upload matches a resume already in the pile, the app says so. Wrong file types, large files and unreadable files get plain-English messages.
 
@@ -191,7 +190,7 @@ Nothing is stored. If the upload matches a resume already in the pile, the app s
 ```bash
 npm install
 npm run pipeline   # extract → review export/apply → score  (writes data/*.json)
-npm test           # 45 unit tests (dates, extraction, scoring, review, ideal-candidate check)
+npm test           # 46 unit tests (dates, extraction, scoring, review, ideal-candidate check)
 npm run dev        # http://localhost:3000
 ```
 

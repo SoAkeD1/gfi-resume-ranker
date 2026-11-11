@@ -3,7 +3,7 @@
 **Method:** A rule-based pipeline in Next.js and TypeScript. I didn't use an LLM scorer: there are only 47 resumes and no hiring outcomes to learn from, and every rank has to be explainable.
 
 1. **Extract:** Each resume (.docx, or PDF on upload) is split into sections. Jobs and dates are parsed, about 15 date formats in all, with overlapping jobs counted once. Skills come from a 37-skill synonym dictionary, and each skill is marked "used in work" or "only listed", with quotes as evidence. Degrees and projects are extracted too. Missing or unclear data is flagged, never guessed.
-2. **Verify:** I exported a review sheet sorted by risk and checked 30 of the 47 resumes against the originals. That covers every flagged resume and the top 5 of each list. 3 were corrected. The review found 9 extractor gaps, which I fixed in code with tests. Every change is logged as old → new.
+2. **Verify:** I exported a review sheet sorted by risk and checked 30 of the 47 resumes against the originals. That covers every flagged resume and the top 5 of each list. 3 were corrected. The review found 10 extractor bugs, which I fixed in the rules for all resumes (regression tests cover 5 of them). Every change is logged as old → new.
 3. **Score (0–100 per role):**
    - **LCA:** skills 40 (must-haves are LCA, GaBi/SimaPro and LCI data work), experience 25 (target 4–6 years; other sustainability years count half), LCA projects 20 (3 or more = full), education 15.
    - **UI/UX:** skills 40 (Figma, prototyping, user research, UX principles), design projects and portfolio 40, internship experience fit 15 (0–1 year is ideal), education 5 (the JD asks for no degree).

@@ -9534,14 +9534,6 @@
         "ongoing": true
       },
       {
-        "degree": "Madhymik",
-        "level": "master",
-        "field": null,
-        "institution": "WBBSC",
-        "endYear": 2017,
-        "ongoing": false
-      },
-      {
         "degree": "Bachelor of Arts",
         "level": "bachelor",
         "field": "Arts",
@@ -9555,6 +9547,14 @@
         "field": null,
         "institution": "WBCHSE",
         "endYear": 2019,
+        "ongoing": false
+      },
+      {
+        "degree": "Madhymik",
+        "level": "school",
+        "field": null,
+        "institution": "WBBSC",
+        "endYear": 2017,
         "ongoing": false
       }
     ],

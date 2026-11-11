@@ -37,3 +37,10 @@ next-env.d.ts
 
 # raw text dumps (dev helper output)
 /data/text/
+
+# local preview config
+/.claude/
+
+# personal study guide (not part of the submission)
+/docs/Project-Guide-Caveman.pdf
+/guide-src/

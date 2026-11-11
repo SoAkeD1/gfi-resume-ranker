@@ -60,6 +60,6 @@ export function rankIds(items: RankItem[]): Map<string, number> {
 
 /** Where a new resume would land in an existing ranked pile (1 = top). Ties go to the higher degree, then years. */
 export function rankInPile(item: Omit<RankItem, "id">, pile: Omit<RankItem, "id">[]): number {
-  const me = { ...item, id: "￿" }; // sorts after any real id on a full tie
+  const me = { ...item, id: "\uffff" }; // sorts after any real id on a full tie
   return 1 + pile.filter((p) => compareRank({ ...p, id: "" }, me) < 0).length;
 }

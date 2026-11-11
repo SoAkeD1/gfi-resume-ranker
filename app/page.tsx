@@ -2,6 +2,8 @@ import Link from "next/link";
 import { ROWS, RESULTS } from "@/lib/data";
 import { JOBS } from "@/config/jobs";
 import { RankingTable } from "@/components/RankingTable";
+import { LABEL_TEXT } from "@/components/ui";
+import type { Label } from "@/lib/classify";
 import type { Role } from "@/lib/skills";
 
 export default function Home({ searchParams }: { searchParams: { role?: string } }) {
@@ -21,7 +23,9 @@ export default function Home({ searchParams }: { searchParams: { role?: string }
           </p>
         </div>
         <div className="flex flex-wrap gap-2 text-xs text-slate-600">
-          {Object.entries(counts).map(([k, v]) => <span key={k} className="rounded-md bg-white px-2 py-1 ring-1 ring-slate-200">{k}: <b>{v}</b></span>)}
+          {(["LCA", "UI/UX", "Both", "Neither", "Uncertain"] as Label[]).filter((k) => counts[k]).map((k) => (
+            <span key={k} className="rounded-md bg-white px-2 py-1 ring-1 ring-slate-200">{LABEL_TEXT[k]}: <b>{counts[k]}</b></span>
+          ))}
         </div>
       </div>
 

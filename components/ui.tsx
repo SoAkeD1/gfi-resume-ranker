@@ -9,7 +9,7 @@ const LABEL_STYLE: Record<Label, string> = {
   Uncertain: "bg-amber-100 text-amber-800 ring-amber-200",
 };
 
-const LABEL_TEXT: Record<Label, string> = {
+export const LABEL_TEXT: Record<Label, string> = {
   LCA: "Fits LCA",
   "UI/UX": "Fits UI/UX",
   Both: "Fits both",

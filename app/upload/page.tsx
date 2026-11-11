@@ -34,7 +34,7 @@ export default function UploadPage() {
       <div>
         <h1 className="text-2xl font-semibold text-slate-900">Upload a resume</h1>
         <p className="mt-1 text-sm text-slate-600">
-          See how a new resume scores for both jobs and where it would rank among the current {state.kind === "done" ? state.pileSize : 47} resumes.
+          See how a new resume scores for both jobs and where it would rank among the resumes already in the pile.
           It is scored with exactly the same rules. The file is not saved.
         </p>
       </div>

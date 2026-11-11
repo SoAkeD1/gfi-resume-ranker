@@ -17,5 +17,5 @@ for (const p of pairs) {
   row[col] = val;
 }
 const headers = Object.keys(rows[0]);
-fs.writeFileSync(file, "﻿" + toCsv(rows, headers));
+fs.writeFileSync(file, "\uFEFF" + toCsv(rows, headers));
 console.log(`${id}: ${pairs.join("  ")}`);

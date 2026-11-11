@@ -58,7 +58,7 @@ const rows = data.map((r) => {
   return row;
 }).sort((a, b) => (a.priority as number) - (b.priority as number) || String(a.id).localeCompare(String(b.id)));
 
-fs.writeFileSync(csvPath, "﻿" + toCsv(rows, HEADERS)); // BOM so Excel shows symbols correctly
+fs.writeFileSync(csvPath, "\uFEFF" + toCsv(rows, HEADERS)); // BOM so Excel shows symbols correctly
 const counts = [1, 2, 3].map((p) => rows.filter((r) => r.priority === p).length);
 console.log(`Wrote data/review.csv (${rows.length} rows). Priority 1: ${counts[0]}, 2: ${counts[1]}, 3: ${counts[2]}`);
 console.log("Kept edits for", Array.from(previous.values()).filter((r) => EDIT_COLUMNS.some((c) => r[c])).length, "rows.");
