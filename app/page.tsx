@@ -2,9 +2,15 @@ import Link from "next/link";
 import { ROWS, RESULTS } from "@/lib/data";
 import { JOBS } from "@/config/jobs";
 import { RankingTable } from "@/components/RankingTable";
-import { LABEL_TEXT } from "@/components/ui";
+import { Contours, Eyebrow, LABEL_INK, LABEL_TEXT } from "@/components/ui";
 import type { Label } from "@/lib/classify";
 import type { Role } from "@/lib/skills";
+
+const ROLE_DOT: Record<Role, string> = { lca: "bg-forest", uiux: "bg-plum" };
+const ROLE_ACTIVE: Record<Role, string> = {
+  lca: "border-forest shadow-[0_10px_30px_rgba(23,32,27,.08),inset_0_-4px_0_#1E5B44]",
+  uiux: "border-plum shadow-[0_10px_30px_rgba(23,32,27,.08),inset_0_-4px_0_#5A3EA6]",
+};
 
 export default function Home({ searchParams }: { searchParams: { role?: string } }) {
   const role: Role = searchParams.role === "uiux" ? "uiux" : "lca";
@@ -15,44 +21,50 @@ export default function Home({ searchParams }: { searchParams: { role?: string }
 
   return (
     <div>
-      <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-semibold text-slate-900">Candidate rankings</h1>
-          <p className="mt-1 text-sm text-slate-600">
-            {RESULTS.length} resumes, ranked separately for each job. {reviewed} were checked by a human.
+      <section className="relative flex flex-wrap items-end justify-between gap-6 pb-7">
+        <Contours className="absolute -right-5 -top-8 hidden w-[520px] opacity-[0.09] md:block" />
+        <div className="anim-rise relative">
+          <Eyebrow>Growth For Impact · Screening</Eyebrow>
+          <h1 className="font-display text-4xl font-semibold leading-[1.05] tracking-[-0.02em] sm:text-5xl">Candidate rankings</h1>
+          <p className="mt-2.5 text-base text-ink-muted">
+            {RESULTS.length} resumes, ranked separately for each job. {reviewed} were checked by a person.
           </p>
         </div>
-        <div className="flex flex-wrap gap-2 text-xs text-slate-600">
+        <div className="anim-rise relative flex flex-wrap gap-2" style={{ animationDelay: "80ms" }}>
           {(["LCA", "UI/UX", "Both", "Neither", "Uncertain"] as Label[]).filter((k) => counts[k]).map((k) => (
-            <span key={k} className="rounded-md bg-white px-2 py-1 ring-1 ring-slate-200">{LABEL_TEXT[k]}: <b>{counts[k]}</b></span>
+            <span key={k} className="rounded-[10px] border border-line bg-white px-3 py-2 text-[13px] text-ink-muted">
+              {LABEL_TEXT[k]} <b className={`ml-1 font-display text-lg ${LABEL_INK[k]}`}>{counts[k]}</b>
+            </span>
           ))}
         </div>
-      </div>
+      </section>
 
-      {/* Role tabs */}
-      <div role="tablist" className="mb-4 grid gap-3 sm:grid-cols-2">
+      <div role="tablist" aria-label="Choose a job" className="mb-5 grid gap-4 sm:grid-cols-2">
         {(["lca", "uiux"] as Role[]).map((r) => {
           const active = r === role;
           return (
-            <Link key={r} href={`/?role=${r}`} role="tab" aria-selected={active}
-              className={`rounded-xl border p-4 transition ${active ? "border-emerald-500 bg-white shadow-sm ring-1 ring-emerald-500" : "border-slate-200 bg-white/60 hover:bg-white"}`}>
-              <div className="flex items-center justify-between">
-                <span className="text-base font-semibold text-slate-900">{JOBS[r].title}</span>
-                <span className="text-xs text-slate-500">{JOBS[r].experience.min}–{JOBS[r].experience.max} yrs</span>
-              </div>
-              <p className="mt-1 text-sm text-slate-600">{JOBS[r].summary}</p>
+            <Link key={r} href={`/?role=${r}`} role="tab" aria-selected={active} scroll={false}
+              className={`flex flex-col rounded-2xl border-[1.5px] bg-white p-5 transition duration-200 hover:-translate-y-0.5 ${active ? ROLE_ACTIVE[r] : "border-line hover:shadow-soft"}`}>
+              <span className="flex items-center justify-between gap-3">
+                <span className="flex items-center gap-2.5">
+                  <span className={`h-2.5 w-2.5 rounded-full ${ROLE_DOT[r]}`} />
+                  <span className="font-display text-[22px] font-semibold">{JOBS[r].title}</span>
+                </span>
+                <span className="text-[13px] text-ink-muted">{JOBS[r].experience.min}–{JOBS[r].experience.max} yrs</span>
+              </span>
+              <span className="mt-2 text-sm leading-relaxed text-ink-muted">{JOBS[r].summary}</span>
             </Link>
           );
         })}
       </div>
 
-      <p className="mb-3 text-sm text-slate-600">
-        <b>{strong}</b> resumes score 50 or more for <b>{job.title}</b>. Must-haves:{" "}
+      <p className="mb-4 text-sm leading-relaxed text-ink-muted">
+        <b className="text-ink">{strong}</b> resumes score 50 or more for <b className="text-ink">{job.title}</b>. Must-haves:{" "}
         {job.mustHaveGroups.map((g) => g.label + (g.label.startsWith("ISO") ? " (not scored: numbers removed by anonymisation)" : "")).join(" · ")}.{" "}
-        <Link href="/how-it-works" className="text-emerald-700 underline">How is this scored?</Link>
+        <Link href="/how-it-works" className="font-medium text-forest underline underline-offset-2">How is this scored?</Link>
       </p>
 
-      <RankingTable rows={ROWS} role={role} />
+      <RankingTable key={role} rows={ROWS} role={role} />
     </div>
   );
 }
